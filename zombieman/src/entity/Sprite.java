@@ -9,8 +9,11 @@ import javax.imageio.ImageIO;
 
 public class Sprite {
    public final static String personSkins[] = {
-      "richie", 
-      "jackson", 
+		   "richie", 
+		   "jackson",
+		   "richie", 
+		   "jackson" 
+		  
    };
 
    public final static Hashtable<String, Image> ht = new Hashtable<String, Image>();

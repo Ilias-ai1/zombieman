@@ -18,8 +18,8 @@ final static int HOEHE_SPRITE_SPIELER = 33 * RESIZE;
 final static int VAR_X_SPRITES = 3 * RESIZE;
 final static int VAR_Y_SPRITES = 16 * RESIZE;
 
-final static int BOMBE_RATE_UPDATE = 90;
-final static int BLOCK_RATE_UPDATE = 100;
+//final static int BOMBE_RATE_UPDATE = 90;
+//final static int BLOCK_RATE_UPDATE = 100;
 final static int SPIELER_STATUS_RATE_UPDATE = 150;
 final static int KOORDINATEN_RATE_UPDATE = 27;
 
