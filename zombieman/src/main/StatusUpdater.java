@@ -5,43 +5,47 @@ import entity.Spieler;
 import entity.Sprite;
 
 public class StatusUpdater extends Thread {
-	   Spieler sp;
-	   String status;
-	   int index;
-	   boolean playerInMotion;
+	Spieler sp;
+	String status;
+	int index;
+	boolean playerInMotion;
 
-	   public StatusUpdater(Spieler p, String initialStatus) {
-	      this.sp = p;
-	      this.status = initialStatus;
-	      index = 0;
-	      playerInMotion = true;
-	   }
-	   public void run() {
-	      while (true) {
-	         sp.setStatus(status + "-" + index);
-	         if (playerInMotion) {
-	            index = (++index) % Sprite.maxLoopStatus.get(status);
-	            sp.panel.repaint();
-	         }
+	public StatusUpdater(Spieler p, String initialStatus) {
+		this.sp = p;
+		this.status = initialStatus;
+		index = 0;
+		playerInMotion = true;
+	}
 
-	         try {
-	            Thread.sleep(Konstante.SPIELER_STATUS_RATE_UPDATE);
-	         } catch (InterruptedException e) {}
-	        
-	         if (sp.getStatus().equals("dead-4")) {
-		            sp.lebt = false;
-		            if (Game.du == sp)
-		               System.exit(1);
-		         }
-	      }
-	   }
-	   public void setLoopStatus(String status) {
-		      this.status = status;
-		      index = 1;
-		      playerInMotion = true;
-		   }
-		   public void stopLoopStatus() {
-		      playerInMotion = false;
-		      index = 0;
-		   }
+	public void run() {
+		while (true) {
+			sp.setStatus(status + "-" + index);
+			if (playerInMotion) {
+				index = (++index) % Sprite.maxLoopStatus.get(status);
+				sp.panel.repaint();
+			}
+
+			try {
+				Thread.sleep(Konstante.SPIELER_STATUS_RATE_UPDATE);
+			} catch (InterruptedException e) {
+			}
+
+			if (sp.getStatus().equals("dead-4")) {
+				sp.lebt = false;
+				if (Game.du == sp)
+					System.exit(1);
+			}
+		}
+	}
+
+	public void setLoopStatus(String status) {
+		this.status = status;
+		index = 1;
+		playerInMotion = true;
+	}
+
+	public void stopLoopStatus() {
+		playerInMotion = false;
+		index = 0;
+	}
 }
