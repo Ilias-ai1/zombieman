@@ -27,7 +27,12 @@ public class StatusUpdater extends Thread {
 	         try {
 	            Thread.sleep(Konstante.SPIELER_STATUS_RATE_UPDATE);
 	         } catch (InterruptedException e) {}
-
+	        
+	         if (sp.getStatus().equals("dead-4")) {
+		            sp.lebt = false;
+		            if (Game.du == sp)
+		               System.exit(1);
+		         }
 	      }
 	   }
 	   public void setLoopStatus(String status) {

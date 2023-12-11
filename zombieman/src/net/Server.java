@@ -23,6 +23,7 @@ public class Server {
       try {
          System.out.print("Lobby #" + portNumber + " geöffnet...\n");
          ss = new ServerSocket(portNumber); // Socket -> Port
+        
          
          System.out.println();
 
@@ -30,6 +31,7 @@ public class Server {
             if (!spieler[id].isLogged()) {
                clientSocket = ss.accept();
                new ClientHandler(clientSocket, id).start();
+
             }
          //fährt den Server nicht herunter, während der Client-Thread weiter ausgeführt wird
       } catch (IOException e) {

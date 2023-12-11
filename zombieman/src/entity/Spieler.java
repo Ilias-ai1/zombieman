@@ -7,7 +7,6 @@ import main.StatusUpdater;
 import net.Client;
 
 
-
 // Spielerklasse
 public class Spieler {
    public int x;

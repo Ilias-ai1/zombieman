@@ -54,6 +54,16 @@ public class CoordinatesThrower extends Thread {
     if (!Server.spieler[id].lebt)
        return false;
     
+    //prüft, ob der Spieler von der Explosion getroffen wurde (Körperzentrumskoordinate)
+    int xBody = newX + Konstante.BREITE_SPRITE_SPIELER/2;
+    int yBody = newY + 2*Konstante.HOEHE_SPRITE_SPIELER/3;
+
+    if (Server.getMap()[getLineOfMap(yBody)][getColumnOfMap(xBody)].img.contains("explosion")) {
+       Server.spieler[id].lebt = false;
+       ClientHandler.sendToAllClients(id + " newStatus dead");
+       return true;
+    }
+    
     int x[] = new int[4], y[] = new int[4];
 	int c[] = new int[4], l[] = new int[4];
 
@@ -79,10 +89,10 @@ public class CoordinatesThrower extends Thread {
     }
 
     if (
-       (Server.getMap()[l[0]][c[0]].img.equals("floor-1")) && 
-       (Server.getMap()[l[1]][c[1]].img.equals("floor-1")) &&
-       (Server.getMap()[l[2]][c[2]].img.equals("floor-1")) && 
-       (Server.getMap()[l[3]][c[3]].img.equals("floor-1"))
+       (Server.getMap()[l[0]][c[0]].img.equals("floor-1") || Server.getMap() [l[0]][c[0]].img.contains("explosion")) && 
+       (Server.getMap()[l[1]][c[1]].img.equals("floor-1") || Server.getMap() [l[1]][c[1]].img.contains("explosion")) &&
+       (Server.getMap()[l[2]][c[2]].img.equals("floor-1") || Server.getMap() [l[2]][c[2]].img.contains("explosion")) && 
+       (Server.getMap()[l[3]][c[3]].img.equals("floor-1") || Server.getMap() [l[3]][c[3]].img.contains("explosion")) 
     ) 
        return true; //nächste Koord ist gültig
 
@@ -116,6 +126,14 @@ public class CoordinatesThrower extends Thread {
        l[i] = getLineOfMap(y[i]);
     }
     
+    if (
+    	Server.getMap()[l[0]][c[0]].img.contains("bomb-planted") ||
+    	Server.getMap()[l[1]][c[1]].img.contains("bomb-planted") ||
+    	Server.getMap()[l[2]][c[2]].img.contains("bomb-planted") ||
+    	Server.getMap()[l[3]][c[3]].img.contains("bomb-planted")
+    ) 
+    	 return true; //Bombe wird platziert
+   
     return false;
  }
 

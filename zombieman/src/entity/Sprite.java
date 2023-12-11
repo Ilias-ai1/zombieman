@@ -13,34 +13,49 @@ public class Sprite {
 		   "jackson",
 		   "richie", 
 		   "jackson" 
-		  
-   };
+    };
 
    public final static Hashtable<String, Image> ht = new Hashtable<String, Image>();
    //Map Blöcke
    final static String mapKeyWords[] = { 
-      "background", "block","wall-center","wall-center2", "wall-down-left", "wall-down-right", 
-      "wall-up-left", "wall-up-right","wall-left","wall-up", "wall-right", "wall-down","floor-1","floor-2"
-   };
+		      "background", 
+		      "block", 
+		      "block-on-fire-1", "block-on-fire-2", "block-on-fire-3", "block-on-fire-4", "block-on-fire-5", "block-on-fire-6", 
+		      "bomb-icone-1", "bomb-icone-2", 
+		      "bomb-red-icone-1", "bomb-red-icone-2", 
+		      "bomb-planted-1", "bomb-planted-2", "bomb-planted-3", 
+		      "bomb-planted-red-1", "bomb-planted-red-2", "bomb-planted-red-3", 
+		      "center-explosion-1", "center-explosion-2", "center-explosion-3", "center-explosion-4", "center-explosion-5", 
+		      "down-explosion-1", "down-explosion-2", "down-explosion-3", "down-explosion-4", "down-explosion-5", 
+		      "right-explosion-1", "right-explosion-2", "right-explosion-3", "right-explosion-4", "right-explosion-5", 
+		      "up-explosion-1", "up-explosion-2", "up-explosion-3", "up-explosion-4", "up-explosion-5", 
+		      "floor-1", "floor-2",
+		      "item-destruction-1", "item-destruction-2", "item-destruction-3", "item-destruction-4", "item-destruction-5", "item-destruction-6", "item-destruction-7", 
+		      "left-explosion-1", "left-explosion-2", "left-explosion-3", "left-explosion-4", "left-explosion-5", 
+		      "mid-hori-explosion-1", "mid-hori-explosion-2", "mid-hori-explosion-3", "mid-hori-explosion-4", "mid-hori-explosion-5", 
+		      "mid-vert-explosion-1", "mid-vert-explosion-2", "mid-vert-explosion-3", "mid-vert-explosion-4", "mid-vert-explosion-5", 
+		      "wall-center","wall-center2", "wall-down-left", "wall-down-right", "wall-up-left", "wall-up-right","wall-left","wall-up", "wall-right", "wall-down"
+		   };
    //Spieler Sprites
    static final String personKeyWords[] = {
-      "dead-0", "dead-1", "dead-2", "dead-3", "dead-4", 
-      "down-0", "down-1", "down-2", "down-3", 
-      "left-0", "left-1", "left-2", "left-3", 
-      "right-0", "right-1", "right-2", "right-3", 
-      "up-0", "up-1", "up-2", "up-3", 
-      "wait-0", "wait-1", "wait-2", "wait-3", 
-   };
+		      "dead-0", "dead-1", "dead-2", "dead-3", "dead-4", 
+		      "down-0", "down-1", "down-2", "down-3", 
+		      "left-0", "left-1", "left-2", "left-3", 
+		      "right-0", "right-1", "right-2", "right-3",  
+		      "up-0", "up-1", "up-2", "up-3", 
+		      "wait-0", "wait-1", "wait-2", "wait-3"
+		   };
    
    public final static Hashtable<String, Integer> maxLoopStatus = new Hashtable<String, Integer>();
-   public static void setMaxLoopStatus() {
-      maxLoopStatus.put("dead", 5);
-      maxLoopStatus.put("down", 4);
-      maxLoopStatus.put("left", 4);
-      maxLoopStatus.put("right", 4);
-      maxLoopStatus.put("up", 4);
-      maxLoopStatus.put("wait", 4);
-   }
+
+	public static void setMaxLoopStatus() {
+		maxLoopStatus.put("dead", 5);
+		maxLoopStatus.put("down", 4);
+		maxLoopStatus.put("left", 4);
+		maxLoopStatus.put("right", 4);
+		maxLoopStatus.put("up", 4);
+		maxLoopStatus.put("wait", 4);
+	}
 
    public static void loadImages() {
       try {

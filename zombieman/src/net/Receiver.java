@@ -28,7 +28,13 @@ public class Receiver extends Thread {
        this.s = fromWhichPlayerIs(Client.in.nextInt()); //id des Clients
        str = Client.in.next();
  
-       if (str.equals("newCoordinate")) {
+       if (str.equals("mapUpdate")) { //p null
+           Game.setSpriteMap(Client.in.next(), Client.in.nextInt(), Client.in.nextInt());
+           SwingUtilities.invokeLater(() -> {
+         	    Game.du.panel.repaint();
+         	});
+       }   
+         else if (str.equals("newCoordinate")) {
           s.x = Client.in.nextInt();
           s.y = Client.in.nextInt();
           Game.du.panel.repaint();

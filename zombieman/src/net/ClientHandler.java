@@ -24,11 +24,13 @@ public class ClientHandler extends Thread {
    private int id;
 
    CoordinatesThrower ct;
+   MapUpdatesThrower mt;
 
    ClientHandler(Socket clientSocket, int id) {
       this.id = id;
       this.clientSocket = clientSocket;
       (ct = new CoordinatesThrower(this.id)).start();
+      (mt = new MapUpdatesThrower(this.id)).start();
 
       try {
          System.out.print("Verbindung mit Spieler " + this.id + " wird hergestellt...\n");
@@ -60,6 +62,10 @@ public class ClientHandler extends Thread {
          else if (str[0].equals("keyCodeReleased") && Server.spieler[id].lebt) {
             ct.keyCodeReleased(Integer.parseInt(str[1]));
          }
+         else if (str[0].equals("pressedSpace") && Server.spieler[id].getNumberOfBombs() >= 1) {
+             Server.spieler[id].setNumberOfBombs(Server.spieler[id].getNumberOfBombs() - 1);
+             mt.setBombPlanted(Integer.parseInt(str[1]), Integer.parseInt(str[2]));
+          }
       }
       clientDisconnected();
    }
