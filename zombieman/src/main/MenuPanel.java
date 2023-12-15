@@ -1,120 +1,151 @@
-package main;
 
+package main;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
-import javax.swing.ImageIcon;
-
+import javax.swing.OverlayLayout;
 import entity.*;
+
+
 
 public class MenuPanel extends JPanel {
 
-	JButton hostButton;
-	JButton joinButton;
-	JButton exitButton;
-	JLabel languageLabel;
-	JSlider soundSlider;
-	JLabel soundLabel;
-	JToggleButton languageGermanToggleButton;
-	JToggleButton languageEnglishToggleButton;
-	BgLabel bgLabel;
-	ContentPanel cp;
+    JButton hostButton;
+    JButton joinButton;
+    JButton exitButton;
+    JLabel languageLabel;
+    JSlider soundSlider;
+    JLabel soundLabel;
+    JToggleButton languageGermanToggleButton;
+    JToggleButton languageEnglishToggleButton;
+    BgLabel bgLabel;
+    ContentPanel contentPanel;
 
-	public MenuPanel(ContentPanel cp) {
-		this.cp = cp;
-		setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
-		setLayout(null);
+    public MenuPanel(ContentPanel contentPanel) {
+        this.contentPanel = contentPanel;
 
-		hostButton = new JButton("Spiel hosten");
-		hostButton.setBounds(469, 280, 130, 35);
-		hostButton.setFocusPainted(false);
-		hostButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout layout = (CardLayout) cp.getLayout();
-				layout.show(cp, "host");
-			}
-		});
-		add(hostButton);
+        setLayout(new GridBagLayout());
+      
 
-		joinButton = new JButton("Spiel beitreten");
-		joinButton.setBounds(469, 326, 130, 35);
-		joinButton.setFocusPainted(false);
-		joinButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout layout = (CardLayout) cp.getLayout();
-				layout.show(cp, "join");
-			}
-		});
-		add(joinButton);
+        // JPanel für die Deutsch und Englisch ToggleButtons links oben
+        JPanel languagePanel = new JPanel();
+        languagePanel.setLayout(new BoxLayout(languagePanel, BoxLayout.X_AXIS));
 
-		exitButton = new JButton("Beenden");
-		exitButton.setBounds(469, 464, 130, 35);
-		exitButton.setFocusPainted(false);
-		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		add(exitButton);
+        languageGermanToggleButton = new JToggleButton();
+        languageGermanToggleButton.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/gerFlag.png")));
+        languageGermanToggleButton.setFocusPainted(false);
+        languageGermanToggleButton.setSelected(true);
+        languagePanel.add(languageGermanToggleButton);
 
-		languageLabel = new JLabel("Sprache");
-		languageLabel.setBounds(450, 372, 52, 35);
-		add(languageLabel);
+        languageEnglishToggleButton = new JToggleButton();
+        languageEnglishToggleButton.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/engFlag.png")));
+        languageEnglishToggleButton.setFocusPainted(false);
+        languageEnglishToggleButton.setSelected(true);
+        languagePanel.add(languageEnglishToggleButton);
 
-		soundSlider = new JSlider();
-		soundSlider.setOpaque(true);
-		soundSlider.setMaximum(10);
-		soundSlider.setMinorTickSpacing(2);
-		soundSlider.setSnapToTicks(true);
-		soundSlider.setPaintTicks(true);
-		soundSlider.setPaintLabels(true);
-		soundSlider.setBounds(504, 418, 112, 35);
-		add(soundSlider);
+        // Positioniere das languagePanel links oben im GridBagLayout
+        GridBagConstraints gbcLanguage = new GridBagConstraints();
+        gbcLanguage.gridx = 0;
+        gbcLanguage.gridy = 0;
+        gbcLanguage.anchor = GridBagConstraints.NORTHWEST;
+        gbcLanguage.insets = new Insets(5, 5, 5, 5);
+        add(languagePanel, gbcLanguage);
 
-		soundLabel = new JLabel();
-		soundLabel.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/speaker.png")));
-		soundLabel.setBounds(450, 418, 52, 35);
-		add(soundLabel);
+        // JPanel für die zentrierten Knöpfe
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new GridBagLayout());
 
-		// ordentliche Icons müssen eingesetzt werden, die aktuellen sind nur
-		// Platzhalter
-		languageGermanToggleButton = new JToggleButton("DE");
-		// languageGermanToggleButton.setIcon(new
-		// ImageIcon(MenuPanel.class.getResource("/menu/engFlag.png")));
-		languageGermanToggleButton.setFocusPainted(false);
-		languageGermanToggleButton.setSelected(true);
-		languageGermanToggleButton.setBounds(512, 372, 50, 35);
-		add(languageGermanToggleButton);
+        hostButton = new JButton("Spiel hosten");
+        hostButton.setFocusPainted(false);
+        hostButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) contentPanel.getLayout();
+                layout.show(contentPanel, "host");
+            }
+        });
+        GridBagConstraints gbcHostButton = new GridBagConstraints();
+        gbcHostButton.gridx = 0;
+        gbcHostButton.gridy = 0;
+        gbcHostButton.fill = GridBagConstraints.HORIZONTAL;
+        gbcHostButton.insets = new Insets(5, 5, 5, 5);
+        centerPanel.add(hostButton, gbcHostButton);
 
-		languageEnglishToggleButton = new JToggleButton("EN");
-		// languageEnglishToggleButton.setIcon(new
-		// ImageIcon(MenuPanel.class.getResource("/menu/gerFlag.png")));
-		languageEnglishToggleButton.setFocusPainted(false);
-		languageEnglishToggleButton.setBounds(566, 372, 50, 35);
-		add(languageEnglishToggleButton);
+        joinButton = new JButton("Spiel beitreten");
+        joinButton.setFocusPainted(false);
+        joinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) contentPanel.getLayout();
+                layout.show(contentPanel, "join");
+            }
+        });
+        GridBagConstraints gbcJoinButton = new GridBagConstraints();
+        gbcJoinButton.gridx = 0;
+        gbcJoinButton.gridy = 1;
+        gbcJoinButton.fill = GridBagConstraints.HORIZONTAL;
+        gbcJoinButton.insets = new Insets(5, 5, 5, 5);
+        centerPanel.add(joinButton, gbcJoinButton);
 
-		languageGermanToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				languageGermanToggleButton.setSelected(true);
-				languageEnglishToggleButton.setSelected(false);
-			}
-		});
-		languageEnglishToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				languageEnglishToggleButton.setSelected(true);
-				languageGermanToggleButton.setSelected(false);
-			}
-		});
+        exitButton = new JButton("Beenden");
+        exitButton.setFocusPainted(false);
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        GridBagConstraints gbcExitButton = new GridBagConstraints();
+        gbcExitButton.gridx = 0;
+        gbcExitButton.gridy = 2;
+        gbcExitButton.fill = GridBagConstraints.HORIZONTAL;
+        gbcExitButton.insets = new Insets(5, 5, 5, 5);
+        centerPanel.add(exitButton, gbcExitButton);
 
-		bgLabel = new BgLabel();
-		add(bgLabel);
-	}
+        // Positioniere das centerPanel in der Mitte des GridBagLayouts
+        GridBagConstraints gbcCenter = new GridBagConstraints();
+        gbcCenter.gridx = 1;
+        gbcCenter.gridy = 0;
+        gbcCenter.weightx = 1.0;
+        gbcCenter.weighty = 1.0;
+        gbcCenter.fill = GridBagConstraints.CENTER;
+        add(centerPanel, gbcCenter);
+
+        // JPanel für den soundSlider und soundLabel rechts oben
+        JPanel soundPanel = new JPanel();
+        soundPanel.setLayout(new BoxLayout(soundPanel, BoxLayout.X_AXIS));
+
+        soundLabel = new JLabel();
+        soundLabel.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/speaker.png")));
+        soundPanel.add(soundLabel);
+
+        soundSlider = new JSlider();
+        soundSlider.setOpaque(true);
+        soundSlider.setMaximum(5);
+        soundSlider.setMinorTickSpacing(1);
+        soundSlider.setSnapToTicks(true);
+        soundSlider.setPaintTicks(true);
+        soundSlider.setPaintLabels(true);
+        soundPanel.add(soundSlider);
+
+        // Positioniere das soundPanel rechts oben im GridBagLayout
+        GridBagConstraints gbcSound = new GridBagConstraints();
+        gbcSound.gridx = 2;
+        gbcSound.gridy = 0;
+        gbcSound.anchor = GridBagConstraints.NORTHEAST;
+        gbcSound.insets = new Insets(5, 5, 5, 5);
+        add(soundPanel, gbcSound);
+
+
+    }
 }

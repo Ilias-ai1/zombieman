@@ -1,96 +1,97 @@
-package main;
 
-import java.awt.CardLayout;
+package main;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.*;
+import javax.swing.*;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import entity.Konstante;
+import entity.Const;
 import entity.Sprite;
+import net.Client;
+import net.Server;
 
 public class HostPanel extends JPanel {
 
-	public JButton gameStartButton;
-	public JButton toMenuButton;
-	JComboBox winRoundComboBox;
-	JLabel winRoundLabel;
-	JLabel hostNameLabel;
-	JTextField hostNameField;
-	BgLabel bgLabel;
-	boolean portFree = true;
-	boolean validName = true;
+    public JButton gameStartButton;
+    public JButton toMenuButton;
+    JComboBox winRoundComboBox;
+    JLabel winRoundLabel;
+    JLabel hostNameLabel;
+    JTextField hostNameField;
+    BgLabel bgLabel;
+    boolean portFree = true;
+    boolean validName = true;
 
-	ContentPanel cp;
-	Server server;
+    ContentPanel contentPanel;
+    Server server;
 
-	public HostPanel(ContentPanel cp) {
-		this.cp = cp;
-		setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
-		setLayout(null);
+    public HostPanel(ContentPanel contentPanel) {
+        this.contentPanel = contentPanel;
+        setBounds(0, 0, Const.COL * Const.SIZE_SPRITE_MAP, Const.LIN * Const.SIZE_SPRITE_MAP);
+        setLayout(new GridBagLayout());
 
-		gameStartButton = new JButton("Spiel starten");
-		gameStartButton.setBounds(466, 392, 130, 35);
-		gameStartButton.setFocusPainted(false);
-		add(gameStartButton);
+        hostNameLabel = new JLabel("Name:");
+        hostNameField = new JTextField();
+        hostNameField.setColumns(10);
 
-		toMenuButton = new JButton("Verlassen");
-		toMenuButton.setBounds(466, 438, 130, 35);
-		toMenuButton.setFocusPainted(false);
-		toMenuButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout layout = (CardLayout) cp.getLayout();
-				layout.show(cp, "menu");
-			}
-		});
-		add(toMenuButton);
+        winRoundLabel = new JLabel("Anzahl der Siege:");
+        winRoundComboBox = new JComboBox<>(new String[]{"1 Runde", "2 Runden", "3 Runden", "4 Runden", "5 Runden"});
+        winRoundComboBox.setFocusable(false);
 
-		winRoundComboBox = new JComboBox();
-		winRoundComboBox.setModel(new DefaultComboBoxModel(new String[] { "1 Runde", "2 Runden", "3 Runden", "4 Runden", "5 Runden" }));
-		winRoundComboBox.setBounds(532, 346, 80, 35);
-		winRoundComboBox.setFocusable(false);
-		add(winRoundComboBox);
+        gameStartButton = new JButton("Spiel starten");
+        gameStartButton.setFocusPainted(false);
 
-		winRoundLabel = new JLabel("Siegbedingung");
-		winRoundLabel.setBounds(450, 346, 80, 35);
-		add(winRoundLabel);
+        toMenuButton = new JButton("Verlassen");
+        toMenuButton.setFocusPainted(false);
 
-		hostNameLabel = new JLabel("Name");
-		hostNameLabel.setBounds(466, 300, 41, 35);
-		add(hostNameLabel);
+      //  bgLabel = new BgLabel();
 
-		hostNameField = new JTextField();
-		hostNameField.setBounds(508, 300, 88, 35);
-		add(hostNameField);
-		hostNameField.setColumns(10);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridwidth = 2; // Setze die Breite auf 2, um den Button über zwei Spalten zu strecken
 
-		bgLabel = new BgLabel();
-		add(bgLabel);
+        add(hostNameLabel, gbc);
+        gbc.gridy++;
+        add(hostNameField, gbc);
+        gbc.gridy++;
+        add(winRoundLabel, gbc);
+        gbc.gridy++;
+        add(winRoundComboBox, gbc);
+        gbc.gridy++;
+        add(gameStartButton, gbc);
+        gbc.gridy++;
+        add(toMenuButton, gbc);
+        gbc.gridy++;
+        gbc.gridwidth = 1; // Setze die Breite zurück auf 1 für den Rest der Komponenten
+       // add(bgLabel, gbc);
 
-		gameStartButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (portFree && validName) {
-					Sprite.loadImages();
-					Sprite.setMaxLoopStatus();
-					String string = (String) winRoundComboBox.getSelectedItem();
-					char chara = string.charAt(0);
-					int num = Character.getNumericValue(chara);
-					server = new Server(1331, num);
-					server.start();
-					new Client("127.0.0.1", 1331, hostNameField.getText());
-					CardLayout layout = (CardLayout) cp.getLayout();
-					cp.addGame();
-					layout.show(cp, "game");
-					cp.game.requestFocusInWindow();
-				}
-			}
-		});
-	}
+        gameStartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (portFree && validName) {
+                    Sprite.loadImages();
+                    Sprite.setMaxLoopStatus();
+                    String string = (String) winRoundComboBox.getSelectedItem();
+                    char chara = string.charAt(0);
+                    int num = Character.getNumericValue(chara);
+                    server = new Server(1331, num);
+                    server.start();
+                    new Client("127.0.0.1", 1331, hostNameField.getText());
+                    CardLayout layout = (CardLayout) contentPanel.getLayout();
+                    contentPanel.addGame();
+                    layout.show(contentPanel, "game");
+                    contentPanel.game.requestFocusInWindow();
+                }
+            }
+        });
+
+        toMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) contentPanel.getLayout();
+                layout.show(contentPanel, "menu");
+            }
+        });
+    }
 }

@@ -1,11 +1,10 @@
-package main;
 
-import java.awt.CardLayout;
+package main;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 
 import javax.swing.JButton;
@@ -14,80 +13,91 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import entity.Const;
+import entity.Sprite;
 import net.Client;
-import entity.*;
 
 public class JoinPanel extends JPanel {
 
-	JButton gameJoinButton;
-	JButton toMenuButton;
-	JLabel joinNameLabel;
-	JTextField joinNameField;
-	BgLabel bgLabel;
-	boolean serverExists = true;
-	boolean validName = true;
+    JButton gameJoinButton;
+    JButton toMenuButton;
+    JLabel joinNameLabel;
+    JTextField joinNameField;
+    BgLabel bgLabel;
+    boolean serverExists = true;
+    boolean validName = true;
 
-	ContentPanel cp;
+    ContentPanel contentPanel;
 
-	public JoinPanel(ContentPanel cp) {
-		this.cp = cp;
-		setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
-		setLayout(null);
+    public JoinPanel(ContentPanel contentPanel) {
+        this.contentPanel = contentPanel;
+        setBounds(0, 0, Const.COL * Const.SIZE_SPRITE_MAP, Const.LIN * Const.SIZE_SPRITE_MAP);
+        setLayout(new GridBagLayout());
 
-		gameJoinButton = new JButton("Spiel beitreten");
-		gameJoinButton.setBounds(470, 371, 130, 35);
-		gameJoinButton.setFocusPainted(false);
-		gameJoinButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (serverExists && validName) {
-					Sprite.loadImages();
-					Sprite.setMaxLoopStatus();
-					new Client("127.0.0.1", 1331, joinNameField.getText());
-					CardLayout layout = (CardLayout) cp.getLayout();
-					cp.addGame();
-					layout.show(cp, "game");
-					cp.game.requestFocusInWindow();
-				} else {
-					JOptionPane.showMessageDialog(joinNameField, "Kein Server gefunden");
-				}
-			}
-		});
-		add(gameJoinButton);
+        joinNameLabel = new JLabel("Name:");
 
-		toMenuButton = new JButton("Verlassen");
-		toMenuButton.setBounds(470, 417, 130, 35);
-		toMenuButton.setFocusPainted(false);
-		toMenuButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout layout = (CardLayout) cp.getLayout();
-				layout.show(cp, "menu");
-			}
-		});
-		add(toMenuButton);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        add(joinNameLabel, gbc);
 
-		joinNameLabel = new JLabel("Name");
-		joinNameLabel.setBounds(470, 325, 41, 35);
-		add(joinNameLabel);
+        joinNameField = new JTextField();
+        joinNameField.setColumns(10);
+        gbc.gridx++;
+        add(joinNameField, gbc);
 
-		joinNameField = new JTextField();
-		joinNameField.setColumns(10);
-		joinNameField.setBounds(512, 325, 88, 35);
-		add(joinNameField);
+        gameJoinButton = new JButton("Spiel beitreten");
+        gameJoinButton.setFocusPainted(false);
+        gameJoinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (serverExists && validName) {
+                    Sprite.loadImages();
+                    Sprite.setMaxLoopStatus();
+                    new Client("127.0.0.1", 1331, joinNameField.getText());
+                    CardLayout layout = (CardLayout) contentPanel.getLayout();
+                    contentPanel.addGame();
+                    layout.show(contentPanel, "game");
+                    contentPanel.game.requestFocusInWindow();
+                } else {
+                    JOptionPane.showMessageDialog(joinNameField, "Kein Server gefunden");
+                }
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        add(gameJoinButton, gbc);
 
-		bgLabel = new BgLabel();
-		add(bgLabel);
-	}
+        toMenuButton = new JButton("Verlassen");
+        toMenuButton.setFocusPainted(false);
+        toMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) contentPanel.getLayout();
+                layout.show(contentPanel, "menu");
+            }
+        });
+        gbc.gridy++;
+        add(toMenuButton, gbc);
 
-	public static boolean serverExists(String hostName, int port) {
-		try {
-			Socket socket = new Socket(hostName, port);
-			socket.close();
-			return true;
-		} catch (SocketTimeoutException exception) {
-			System.out.println("SocketTimeoutException " + hostName + ":" + port + ". " + exception.getMessage());
-		} catch (IOException exception) {
-			System.out.println("IOException - Unable to connect to " + hostName + ":" + port + ". " + exception.getMessage());
-		}
-		return false;
-	}
+//        bgLabel = new BgLabel();
+//        gbc.gridx = 0;
+//        gbc.gridy++;
+//        gbc.gridwidth = 2;
+       // add(bgLabel, gbc);
+    }
+
+    public static boolean serverExists(String hostName, int port) {
+        try {
+            Socket socket = new Socket(hostName, port);
+            socket.close();
+            return true;
+        } catch (SocketTimeoutException exception) {
+            System.out.println("SocketTimeoutException " + hostName + ":" + port + ". " + exception.getMessage());
+        } catch (IOException exception) {
+            System.out.println(
+                    "IOException - Unable to connect to " + hostName + ":" + port + ". " + exception.getMessage());
+        }
+        return false;
+    }
 }
