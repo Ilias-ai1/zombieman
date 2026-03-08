@@ -3,10 +3,8 @@ package main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
-
-import entity.Const;
+import entity.Konstante;
 import entity.Sprite;
 import net.Client;
 import net.Server;
@@ -19,7 +17,7 @@ public class HostPanel extends JPanel {
     JLabel winRoundLabel;
     JLabel hostNameLabel;
     JTextField hostNameField;
-    BgLabel bgLabel;
+    ImageIcon imageIcon;
     boolean portFree = true;
     boolean validName = true;
 
@@ -28,9 +26,10 @@ public class HostPanel extends JPanel {
 
     public HostPanel(ContentPanel contentPanel) {
         this.contentPanel = contentPanel;
-        setBounds(0, 0, Const.COL * Const.SIZE_SPRITE_MAP, Const.LIN * Const.SIZE_SPRITE_MAP);
+        imageIcon = new ImageIcon("res//menu//serverbackground.gif");
+        repaint();
+        setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
         setLayout(new GridBagLayout());
-
         hostNameLabel = new JLabel("Name:");
         hostNameField = new JTextField();
         hostNameField.setColumns(10);
@@ -93,5 +92,10 @@ public class HostPanel extends JPanel {
                 layout.show(contentPanel, "menu");
             }
         });
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        imageIcon.paintIcon(this, g, 0, 0);
     }
 }

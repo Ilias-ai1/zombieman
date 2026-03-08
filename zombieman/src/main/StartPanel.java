@@ -5,19 +5,25 @@ import javax.swing.JPanel;
 import entity.*;
 
 import java.awt.CardLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class StartPanel extends JPanel {
 
 	ContentPanel cp;
 	JButton toMenuButton;
-	BgLabel bgLabel;
+	ImageIcon imageIcon;
+	URL url;
 
 	public StartPanel(ContentPanel cp) {
-		setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
+		this.cp = cp;
+		imageIcon = new ImageIcon("res//menu//startbildzombieman.gif");
+        repaint();
+        setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
 		setLayout(null);
 
 		JButton toMenuButton = new JButton();
@@ -33,9 +39,10 @@ public class StartPanel extends JPanel {
 			}
 		});
 		add(toMenuButton);
-
-		bgLabel = new BgLabel();
-		add(bgLabel);
-
 	}
+	
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        imageIcon.paintIcon(this, g, 0, 0);
+    }
 }

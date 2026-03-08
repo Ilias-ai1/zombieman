@@ -1,0 +1,14 @@
+# Mac System files
+.DS_Store
+
+# Eclipse
+.settings/
+.metadata/
+bin/
+
+# Java build files
+target/
+build/
+
+# Logs
+*.log

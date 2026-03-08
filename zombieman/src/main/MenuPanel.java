@@ -1,14 +1,13 @@
 
 package main;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,10 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
-import javax.swing.OverlayLayout;
-import entity.*;
-
-
 
 public class MenuPanel extends JPanel {
 
@@ -31,23 +26,24 @@ public class MenuPanel extends JPanel {
     JLabel soundLabel;
     JToggleButton languageGermanToggleButton;
     JToggleButton languageEnglishToggleButton;
-    BgLabel bgLabel;
     ContentPanel contentPanel;
+    ImageIcon imageIcon;
 
     public MenuPanel(ContentPanel contentPanel) {
         this.contentPanel = contentPanel;
-
+        imageIcon = new ImageIcon("res//menu//serverbackground.gif");
+        repaint();
         setLayout(new GridBagLayout());
-      
 
         // JPanel für die Deutsch und Englisch ToggleButtons links oben
         JPanel languagePanel = new JPanel();
         languagePanel.setLayout(new BoxLayout(languagePanel, BoxLayout.X_AXIS));
+       
 
         languageGermanToggleButton = new JToggleButton();
         languageGermanToggleButton.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/gerFlag.png")));
         languageGermanToggleButton.setFocusPainted(false);
-        languageGermanToggleButton.setSelected(true);
+        languageGermanToggleButton.setSelected(false);
         languagePanel.add(languageGermanToggleButton);
 
         languageEnglishToggleButton = new JToggleButton();
@@ -55,6 +51,20 @@ public class MenuPanel extends JPanel {
         languageEnglishToggleButton.setFocusPainted(false);
         languageEnglishToggleButton.setSelected(true);
         languagePanel.add(languageEnglishToggleButton);
+        
+        languageGermanToggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				languageGermanToggleButton.setSelected(true);
+				languageEnglishToggleButton.setSelected(false);
+			}
+		});
+		languageEnglishToggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				languageEnglishToggleButton.setSelected(true);
+				languageGermanToggleButton.setSelected(false);
+			}
+		});
+
 
         // Positioniere das languagePanel links oben im GridBagLayout
         GridBagConstraints gbcLanguage = new GridBagConstraints();
@@ -124,7 +134,8 @@ public class MenuPanel extends JPanel {
         // JPanel für den soundSlider und soundLabel rechts oben
         JPanel soundPanel = new JPanel();
         soundPanel.setLayout(new BoxLayout(soundPanel, BoxLayout.X_AXIS));
-
+        
+       
         soundLabel = new JLabel();
         soundLabel.setIcon(new ImageIcon(MenuPanel.class.getResource("/menu/speaker.png")));
         soundPanel.add(soundLabel);
@@ -136,6 +147,9 @@ public class MenuPanel extends JPanel {
         soundSlider.setSnapToTicks(true);
         soundSlider.setPaintTicks(true);
         soundSlider.setPaintLabels(true);
+        soundSlider.setPreferredSize(new Dimension (70,25));
+      
+        
         soundPanel.add(soundSlider);
 
         // Positioniere das soundPanel rechts oben im GridBagLayout
@@ -146,6 +160,10 @@ public class MenuPanel extends JPanel {
         gbcSound.insets = new Insets(5, 5, 5, 5);
         add(soundPanel, gbcSound);
 
-
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        imageIcon.paintIcon(this, g, 0, 0);
     }
 }

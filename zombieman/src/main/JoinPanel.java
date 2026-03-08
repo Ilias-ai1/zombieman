@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import entity.Const;
+import entity.Konstante;
 import entity.Sprite;
 import net.Client;
 
@@ -23,15 +23,16 @@ public class JoinPanel extends JPanel {
     JButton toMenuButton;
     JLabel joinNameLabel;
     JTextField joinNameField;
-    BgLabel bgLabel;
+    ImageIcon imageIcon;
     boolean serverExists = true;
     boolean validName = true;
-
     ContentPanel contentPanel;
 
     public JoinPanel(ContentPanel contentPanel) {
         this.contentPanel = contentPanel;
-        setBounds(0, 0, Const.COL * Const.SIZE_SPRITE_MAP, Const.LIN * Const.SIZE_SPRITE_MAP);
+        imageIcon = new ImageIcon("res//menu//serverbackground.gif");
+        repaint();
+        setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP, Konstante.LIN * Konstante.SIZE_SPRITE_MAP);
         setLayout(new GridBagLayout());
 
         joinNameLabel = new JLabel("Name:");
@@ -99,5 +100,10 @@ public class JoinPanel extends JPanel {
                     "IOException - Unable to connect to " + hostName + ":" + port + ". " + exception.getMessage());
         }
         return false;
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        imageIcon.paintIcon(this, g, 0, 0);
     }
 }
