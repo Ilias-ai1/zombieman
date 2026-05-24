@@ -1,14 +1,15 @@
-# Mac System files
+# Build output
+/bin/
+*.jar
+*.class
+
+# IDE files
 .DS_Store
+.idea/
+*.iml
+.settings/
+.classpath
+.project
 
 # Eclipse
-.settings/
-.metadata/
-bin/
-
-# Java build files
-target/
-build/
-
-# Logs
-*.log
+*.launch
