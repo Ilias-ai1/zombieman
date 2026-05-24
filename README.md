@@ -9,7 +9,12 @@ A Java-based multiplayer arcade game for up to 4 players over a local network, i
 BoOom is a 2D multiplayer game where up to 4 players compete against each other simultaneously. The goal is to eliminate all other players using bombs and be the last one standing. The game runs on a client-server architecture over a local network (LAN).
 
 ---
+## Screenshots
 
+![Start Screen](screenshots/gameStart.png)
+![Main Menu](screenshots/FirstMenu.png)
+![Host Game](screenshots/maps.png)
+![Gameplay](screenshots/gamePlay.png)
 ## Features
 
 - **Up to 4 players** simultaneously via LAN multiplayer
