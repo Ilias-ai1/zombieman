@@ -36,7 +36,7 @@ BoOom is a 2D multiplayer game where up to 4 players compete against each other 
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/Ilias-ai1/zombieman.git
    ```
 
 2. Navigate to the `zombieman/` folder and build the project:
