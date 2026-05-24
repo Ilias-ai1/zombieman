@@ -26,24 +26,29 @@ BoOom is a 2D multiplayer game where up to 4 players compete against each other 
 
 ## Requirements
 
-- Java 11 or higher
+- Java 17 or higher
+- Maven
 - Local network (LAN) for multiplayer
 
 ---
 
-## Getting Started
+## How to Run (from source)
 
-### Run as JAR
+1. Clone the repository:
+   ```bash
+   git clone <repo-url>
+   ```
 
-```bash
-java -jar zombieman.jar
-```
+2. Navigate to the `zombieman/` folder and build the project:
+   ```bash
+   cd zombieman
+   mvn package -DskipTests
+   ```
 
-### Run in Eclipse
-
-1. Import the project into Eclipse (`File → Import → Existing Projects into Workspace`)
-2. Select the `zombieman` project
-3. Run `GameFrame.java` as the main class
+3. Run the generated JAR:
+   ```bash
+   java -jar target/zombieman-1.0.0.jar
+   ```
 
 ---
 
@@ -79,22 +84,29 @@ java -jar zombieman.jar
 
 ---
 
+## Repository Size
+
+The repository includes all game assets (sounds, images, animations) totaling approximately **~160 MB**.
+This is intentional so the project is fully self-contained and can be cloned and run without any external dependencies.
+
+---
+
 ## Project Structure
 
 ```
 zombieman/
-├── src/
-│   ├── entity/       # Players, sprites, constants, power-ups
-│   ├── main/         # UI panels (menu, game, loading, help, host, join, victory)
-│   ├── net/          # Networking (server, client, sender, receiver)
-│   └── test/         # JUnit tests
-├── res/
-│   ├── map/          # Map sprites and power-up icons
-│   ├── menu/         # Menu graphics and backgrounds
-│   ├── person/       # Player skins
-│   ├── sound/        # Music and sound effects
-│   └── digits/       # Number sprites for the timer
-└── zombieman.jar     # Executable JAR file
+├── src/        # Java source code
+│   ├── entity/ # Players, sprites, constants, power-ups
+│   ├── main/   # UI panels (menu, game, loading, help, host, join, victory)
+│   ├── net/    # Networking (server, client, sender, receiver)
+│   └── test/   # JUnit tests
+├── res/        # Game assets (images, sounds, animations)
+│   ├── map/    # Map sprites and power-up icons
+│   ├── menu/   # Menu graphics and backgrounds
+│   ├── person/ # Player skins
+│   ├── sound/  # Music and sound effects
+│   └── digits/ # Number sprites for the timer
+└── pom.xml     # Maven build configuration
 ```
 
 ---
