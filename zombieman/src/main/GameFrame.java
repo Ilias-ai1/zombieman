@@ -1,55 +1,64 @@
 package main;
 
 import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-import entity.Konstante;
 
+@SuppressWarnings("serial")
+
+/**
+ * @author BoOom
+ * Die Klasse GameFrame repräsentiert das Hauptfenster des Spiels.
+ * Hier wird das Hauptpanel ContentPanel erstellt und als Inhalt des Fensters gesetzt.
+ */
 public class GameFrame extends JFrame {
 
-	public ContentPanel contentPanel;
+	private ContentPanel contentPanel;
 
+	/**
+	 * Die main-Methode startet die Anwendung und erstellt ein neues GameFrame
+	 * @param args
+	 */
 	public static void main(String[] args) {
-
 		// System.setProperty( "sun.java2d.uiScale", "1.0" );
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameFrame frame = new GameFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(() -> {
+			try {
+				GameFrame frame = new GameFrame();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}
 
+	/**
+	 * Hier ist der Konstruktor und die Einstellungen für das GameFrame
+	 */
 	public GameFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Konstante.COL * Konstante.SIZE_SPRITE_MAP + 14, Konstante.LIN * Konstante.SIZE_SPRITE_MAP + 36);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = ge.getMaximumWindowBounds();
+		setVisible(true); // TaskLeiste bei Windows bleibt erhalten
+		setSize(bounds.width, bounds.height);
+		Insets insets = getInsets();
+		int frameWidth = bounds.width - insets.left - insets.right;
+		int frameHeight = bounds.height - insets.top - insets.bottom;
+		setSize(frameWidth, frameHeight);
+		setLocation(bounds.x + insets.left, bounds.y + insets.top);
 		setTitle("ZombieMan");
 		setResizable(false);
-
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
-		contentPanel = new ContentPanel();
+		ImageIcon img = new ImageIcon(getClass().getResource("/menu/GameIcon.png"));
+		setIconImage(img.getImage());
+		contentPanel = new ContentPanel(frameWidth, frameHeight);
 		setContentPane(contentPanel);
-		// mit pack gibt es aktuell probleme, deshalb vorerst feste werte mit setBounds
-		// festgelegt
-		// pack();
+		pack();
+		// setVisible(true);
 	}
 }
